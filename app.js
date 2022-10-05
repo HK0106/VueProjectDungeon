@@ -17,7 +17,8 @@ const app = Vue.createApp({
             playerHealth: 100,
             playerPow: 0,
             currentRound: 0,
-            fullPow: false
+            fullPow: false,
+            winner: null
         }
     },
     computed: {
@@ -29,6 +30,22 @@ const app = Vue.createApp({
         },
         playerPowBarStyles() {
             return { width: this.playerPow + '%'}
+        }
+    },
+    watch: {
+        playerHealth(value) {
+            if (value <= 0 && this.monsterHealth <= 0) {
+                this.winner = 'draw'
+            } else if (value <= 0) {
+                this.winner ='monster'
+            }
+        },
+        monsterHealth(value) {
+            if (value <= 0 && this.playerHealth <= 0) {
+                this.winner = 'draw'
+            } else if (value <= 0) {
+                this.winner ='player'
+            }
         }
     },
     methods: {
